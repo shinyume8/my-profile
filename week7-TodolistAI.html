@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TODOリスト</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+  <div class="bg-white rounded-lg shadow-md p-6 w-full max-w-md">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800 text-center">TODO List</h1>
+
+    <!-- タスク入力エリア -->
+    <div class="flex gap-2 mb-6">
+      <input 
+        id="todoInput" 
+        type="text" 
+        placeholder="新しいタスクを入力..." 
+        class="border border-gray-300 rounded px-3 py-2 flex-1 focus:outline-none focus:border-blue-500"
+      >
+      <button 
+        id="addBtn" 
+        class="bg-blue-600 text-white font-bold px-4 py-2 rounded hover:bg-blue-700 transition"
+      >
+        追加
+      </button>
+    </div>
+
+    <!-- TODOリスト表示エリア -->
+    <ul id="todoList" class="space-y-3"></ul>
+  </div>
+
+  <script>
+    const todoInput = document.querySelector("#todoInput");
+    const addBtn = document.querySelector("#addBtn");
+    const todoList = document.querySelector("#todoList");
+
+    // タスクを追加する処理
+    addBtn.addEventListener("click", () => {
+      const inputText = todoInput.value.trim();
+
+      // 空テキストのガード処理
+      if (inputText === "") {
+        alert("タスクの内容を入力してください。");
+        return;
+      }
+
+      // li要素（リスト項目）を作成
+      const li = document.createElement("li");
+      li.className = "flex items-center justify-between bg-gray-50 p-3 rounded border border-gray-200";
+
+      // タスクのテキスト要素
+      const taskText = document.createElement("span");
+      taskText.textContent = inputText;
+      taskText.className = "flex-1 mr-2 break-all text-gray-800";
+
+      // ボタンのグループ化用コンテナ
+      const btnGroup = document.createElement("div");
+      btnGroup.className = "flex gap-2 shrink-0";
+
+      // 完了ボタン
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "完了";
+      completeBtn.className = "bg-green-500 text-white text-xs font-bold px-2 py-1 rounded hover:bg-green-600 transition";
+      
+      completeBtn.addEventListener("click", () => {
+        // line-through（打ち消し線）と文字色の切り替え
+        taskText.classList.toggle("line-through");
+        taskText.classList.toggle("text-gray-400");
+      });
+
+      // 削除ボタン（発展要件）
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "削除";
+      deleteBtn.className = "bg-red-500 text-white text-xs font-bold px-2 py-1 rounded hover:bg-red-600 transition";
+
+      deleteBtn.addEventListener("click", () => {
+        // 削除確認UX（ブラウザ標準ダイアログによる確認）
+        const isConfirmed = confirm(`「${inputText}」を削除してもよろしいですか？`);
+        if (isConfirmed) {
+          li.remove();
+        }
+      });
+
+      // 要素の組み立て
+      btnGroup.appendChild(completeBtn);
+      btnGroup.appendChild(deleteBtn);
+      li.appendChild(taskText);
+      li.appendChild(btnGroup);
+
+      // ulに項目を追加し、入力欄を初期化
+      todoList.appendChild(li);
+      todoInput.value = "";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Week07 POSSE課題</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex flex-col min-h-screen bg-pink-300">
+    <div id="wrapper" class="bg-pink-300 flex flex-col items-center gap-4 pb-8">
+
+        <h1 class="text-center font-bold text-4xl text-blue-950 p-4">Todo List</h1>
+        <button id="addCardBtn" class="w-24 bg-blue-950 text-pink-300 font-bold text-3xl p-4 m-4 hover:bg-blue-700">Task</button>
+
+        <div class="cardTask flex flex-row items-stretch w-full max-w-md">
+            <button class="completionBtn bg-blue-200 hover:bg-blue-300 px-4 text-white text-center rounded-l">completion</button>
+            <div class="bg-white shadow px-4 py-4 gap-3 flex flex-col w-full rounded-r">
+                <input type="text" placeholder="Enter a task" class="todoInput border p-1 rounded">
+                <ul id="todoList" class="todoList space-y-2"></ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const addCardBtn = document.querySelector("#addCardBtn");
+        const wrapper = document.querySelector("#wrapper");
+
+        function createCard() {
+            const newCard = document.createElement("div");
+            newCard.className = "cardTask flex flex-row items-stretch w-full max-w-md";
+
+            newCard.innerHTML = `
+                <button class="completionBtn bg-blue-200 hover:bg-blue-300 px-4 text-white text-center rounded-l">Completion</button>
+                <div class="bg-white shadow px-4 py-4 gap-3 flex flex-col w-full rounded-r">
+                    <input type="text" placeholder="Enter a task" class="todoInput border p-1 rounded">
+                    <ul class="todoList space-y-2"></ul>
+                </div>
+            `;
+
+            const completionBtn = newCard.querySelector(".completionBtn");
+            const todoInput = newCard.querySelector(".todoInput");
+
+            completionBtn.addEventListener("click", () => {
+                todoInput.classList.toggle("line-through");
+                todoInput.classList.toggle("text-gray-400");
+            });
+
+            return newCard;
+        }
+
+        const firstCardBtn = document.querySelector(".completionBtn");
+        const firstInput = document.querySelector(".todoInput");
+        
+        firstCardBtn.addEventListener("click", () => {
+            firstInput.classList.toggle("line-through");
+            firstInput.classList.toggle("text-gray-400");
+        });
+
+        addCardBtn.addEventListener("click", () => {
+            const card = createCard();
+            wrapper.appendChild(card);
+        });
+
+        const todoInput = document.querySelector(".todoInput");
+        const addCaedBtn = document.querySelector(".addCardBtn");
+        const todoList = document.querySelector(".todoList");
+
+        addBtn.addEventListener("click", () => {
+            const inputText = todoInput.value;
+
+            if (inputText !== "") {
+                const li = document.createElement("li");
+                li.textContent = inputText;
+                todoList.appendChild(li);
+                todoInput.value = "";
+                
+            } else {
+                alert("テキストを入力してください");
+            } 
+        });
+    </script>
+</body>
+</html>
