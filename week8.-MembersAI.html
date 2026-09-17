@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>チームメンバー一覧</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen p-6 md:p-12">
+
+  <div class="max-w-5xl mx-auto">
+    <!-- ヘッダー -->
+    <header class="mb-8 text-center">
+      <h1 class="text-3xl font-bold text-slate-800">チームメンバー一覧</h1>
+      <p class="mt-2 text-slate-600">プロジェクトを推進するメンバーを紹介します。</p>
+    </header>
+
+    <!-- 絞り込みボタンエリア（発展課題） -->
+    <div class="flex flex-wrap justify-center gap-2 mb-8" id="filterButtons">
+      <button onclick="filterMembers('全員')" class="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition">全員</button>
+      <button onclick="filterMembers('エンジニア')" class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 transition">エンジニア</button>
+      <button onclick="filterMembers('デザイナー')" class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 transition">デザイナー</button>
+      <button onclick="filterMembers('ディレクター')" class="px-4 py-2 bg-white text-slate-700 border border-slate-300 rounded-lg hover:bg-slate-50 transition">ディレクター</button>
+    </div>
+
+    <!-- カードを表示するコンテナ -->
+    <div id="memberContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </div>
+
+  <script>
+    // 1. メンバーデータの定義（役割順：リーダーシップ層→制作陣の順でわかりやすく並べています）
+    const members = [
+      { name: "佐藤 健太", role: "ディレクター", comment: "プロジェクト全体の進行管理と方向性の決定を担当しています！" },
+      { name: "田中 美咲", role: "エンジニア", comment: "フロントエンド開発を中心に、快適なユーザー体験を追求しています。" },
+      { name: "鈴木 翔太", role: "エンジニア", comment: "バックエンドとデータベース構築が得意です。安定したシステムを作ります。" },
+      { name: "高橋 葵", role: "デザイナー", comment: "UI/UXデザインを担当。シンプルで使いやすいデザインを心がけています。" },
+      { name: "渡辺 陸", role: "デザイナー", comment: "イラスト作成やブランディング用グラフィックを中心に制作しています。" }
+    ];
+
+    const container = document.getElementById("memberContainer");
+
+    // 2. カード描画用関数（配列を受け取って forEach で追加する）
+    function renderMembers(data) {
+      // 一旦画面をクリア
+      container.innerHTML = "";
+
+      data.forEach(member => {
+        // カード要素（div）の作成
+        const card = document.createElement("div");
+        card.className = "bg-white p-6 rounded-xl shadow-md border border-slate-100 flex flex-col justify-between hover:shadow-lg transition";
+
+        // カード内部のHTML構造を設定
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-xl font-bold text-slate-800">${member.name}</h2>
+              <span class="text-xs font-semibold px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full border border-indigo-100">
+                ${member.role}
+              </span>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4">${member.comment}</p>
+          </div>
+        `;
+
+        // 親コンテナに追加
+        container.appendChild(card);
+      });
+    }
+
+    // 3. 絞り込み処理（filter を使用）
+    function filterMembers(role) {
+      if (role === '全員') {
+        renderMembers(members);
+      } else {
+        const filtered = members.filter(member => member.role === role);
+        renderMembers(filtered);
+      }
+    }
+
+    // 初回表示
+    renderMembers(members);
+  </script>
+</body>
+</html>
